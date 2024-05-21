@@ -1,0 +1,43 @@
+name: 'Deploy with rsync'
+description: 'Deploy files to a server using rsync and run a script after deployment'
+author: 'sparkout <saranraj.st0078@sparkouttech.com>'
+inputs:
+  DEPLOY_KEY:
+    description: 'SSH private key for deployment'
+    required: true
+    secret: true
+  USERNAME:
+    description: 'Username for SSH connection'
+    required: true
+  SERVER_IP:
+    description: 'Server IP address'
+    required: true
+  SERVER_DESTINATION:
+    description: 'Destination path on the server'
+    required: true
+  ARGS:
+    description: 'Arguments for rsync'
+    required: false
+    default: '-avz'
+  SERVER_PORT:
+    description: 'SSH port'
+    required: false
+    default: '22'
+  FOLDER:
+    description: 'Folder to deploy'
+    required: true
+  SCRIPT:
+    description: 'Script to run on the server after deployment'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    DEPLOY_KEY: ${{ inputs.DEPLOY_KEY }}
+    USERNAME: ${{ inputs.USERNAME }}
+    SERVER_IP: ${{ inputs.SERVER_IP }}
+    SERVER_DESTINATION: ${{ inputs.SERVER_DESTINATION }}
+    ARGS: ${{ inputs.ARGS }}
+    SERVER_PORT: ${{ inputs.SERVER_PORT }}
+    FOLDER: ${{ inputs.FOLDER }}
+    SCRIPT: ${{ inputs.SCRIPT }}
